@@ -1,3 +1,9 @@
+# v0.3.3
+## Bug Squashing and Dependency Updates :bug:
+
+- **Bug Fixes** : We've tackled bugs related to location URLs and video captions. Your app will now run even more smoothly!
+- **Upgraded Dependencies**: We've bumped up maven-surefire-plugin from 3.0.0 to 3.1.2 and org.junit.jupiter.version from 5.9.3 to 5.10.0 for better compatibility and performance.
+
 # v0.3.2
 ## Bug Be Gone! :bug:
 
