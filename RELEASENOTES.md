@@ -1,3 +1,16 @@
+# v0.3.4
+## Exciting New Features! :tada:
+
+- **Two-Step Verification Code**: Enhance your security with our latest feature that lets you send two-step verification codes!
+- **Commerce Settings Endpoint**: We've introduced a new endpoint for all your commerce settings needs.
+- **Proxy Power**: We've implemented HttpProxy for our shared client, making your experience even smoother.
+
+### Other Enhancements :art:
+
+- **FUNDING.yml**: We've created a funding configuration to support our project.
+- **Javadoc Perfection**: Fixed those pesky javadoc generating errors.
+- **Stay Updated**: Bumped actions/checkout from 3 to 4 for improved performance and reliability.
+
 # v0.3.3
 ## Bug Squashing and Dependency Updates :bug:
 
