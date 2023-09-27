@@ -2,6 +2,7 @@ import argparse
 import http.client
 import json
 import logging
+import os
 import re
 import subprocess
 from difflib import ndiff
@@ -12,11 +13,22 @@ DEFAULT_BRANCH_NAME = 'main'
 RELEASE_NOTES_FILE_NAME = 'RELEASENOTES.md'
 
 
-def get_latest_tag():
-    subprocess.run(['git', 'config', '--global', '--add', 'safe.directory', '%teamcity.build.checkoutDir%'],
+def get_latest_tag(branch):
+    subprocess.run(['git', 'config', '--global', '--add', 'safe.directory', os.environ['PWD']],
                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
-    result = subprocess.run(["git", "describe", "--tags", "--abbrev=0", DEFAULT_BRANCH_NAME, 'HEAD'],
-                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
+    status = subprocess.run(["git", "status"],
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
+    print(status.stdout.strip())
+    tags = subprocess.run(["git", "show-ref", "--tags"],
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
+    print(tags.stdout.strip())
+
+    result = subprocess.run(["git", "describe", "--tags", "--abbrev=0"],
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
+
+    if result.returncode != 0:
+        logging.exception(result.stderr.strip())
+        raise Exception("git error")
 
     nearest_tag = result.stdout.strip()
 
@@ -46,6 +58,8 @@ def get_local_release_notes(tag):
         for version, text in re.findall(r'# (v\d\.\d\.\d)\n([\s\S]+?)\n\n# v[\d.]+', full_text):
             if version == tag:
                 return text
+        else:
+            logging.exception(f"Release notes from local file not found! {tag=}")
 
 
 def compare_text(local, remote):
@@ -65,7 +79,11 @@ def write_notes(notes):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Release Notes Utility")
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--branch", help="current git branch name", default=None
+    )
 
     parser.add_argument(
         "--compare-release-notes",
@@ -82,7 +100,7 @@ def main():
 
     args = parser.parse_args()
 
-    latest_tag = get_latest_tag()
+    latest_tag = get_latest_tag(args.branch)
     local_release_notes = get_local_release_notes(latest_tag)
     if args.compare_release_notes:
         release_notes = get_release_notes(latest_tag)
