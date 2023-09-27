@@ -135,6 +135,7 @@
                     <source>17</source>
                     <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
                     <destDir>javadoc</destDir>
+                    <notimestamp >true</notimestamp >
                 </configuration>
 
             </plugin>

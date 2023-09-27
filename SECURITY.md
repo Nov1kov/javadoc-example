@@ -16,4 +16,3 @@ Use "Vulnerability Report - whatsapp-business-java-api" as the email subject and
 vulnerability in the email body.
 
 Thank you.
-
