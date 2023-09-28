@@ -1,5 +1,5 @@
 # v0.3.4
-## Exciting New Features! :tada:
+## Exciting New Features! :rocket:
 
 - **Two-Step Verification Code**: Enhance your security with our latest feature that lets you send two-step verification codes!
 - **Commerce Settings Endpoint**: We've introduced a new endpoint for all your commerce settings needs.
